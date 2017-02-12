@@ -7,10 +7,10 @@
         "mcversion": "${mcversion}",
         "url": "http://littlebits.cc",
         "updateUrl": "http://littlebits.cc",
-        "authorList": ["stanBits", "sssyed"],
+        "authorList": ["stanBits", "sssyed", "chimericdream"],
         "credits": "Made with tons of community help",
         "logoFile": "",
         "screenshots": [],
-        "dependencies": ["mod_MinecraftForge"]
+        "dependencies": []
     }
 ]

@@ -9,11 +9,14 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class ClientProxy extends CommonProxy{
-	@Override
-	public void registerRenders() {
-		ModelCloud model = new ModelCloud();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCloud.class, new RenderCloud(model));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(CloudModBlocks.blockCloud), new ItemRenderCloud(model));
-	}
+public class ClientProxy extends CommonProxy {
+    @Override
+    public void registerRenders() {
+        ModelCloud model = new ModelCloud();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCloud.class, new RenderCloud(model));
+        MinecraftForgeClient.registerItemRenderer(
+                Item.getItemFromBlock(CloudModBlocks.blockCloud),
+                new ItemRenderCloud(model)
+        );
+    }
 }

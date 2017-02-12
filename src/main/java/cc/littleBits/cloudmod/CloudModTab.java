@@ -6,16 +6,14 @@ import cc.littleBits.cloudmod.init.CloudModBlocks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-public class CloudModTab extends CreativeTabs{
+public class CloudModTab extends CreativeTabs {
+    public CloudModTab(String arg0) {
+        super(arg0);
+    }
 
-	public CloudModTab(String arg0) {
-		super(arg0);
-	}
-	
-	@Override
-	public Item getTabIconItem() {
-		// Set the cloud gateway as the creative inventory tab
-		return Item.getItemFromBlock(CloudModBlocks.blockCloud);
-	}
-	
+    @Override
+    public Item getTabIconItem() {
+        // Set the cloud gateway as the creative inventory tab
+        return Item.getItemFromBlock(CloudModBlocks.blockCloud);
+    }
 }

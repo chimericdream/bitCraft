@@ -1,39 +1,37 @@
 package cc.littleBits.cloudmod.url;
 
+import cc.littleBits.cloudmod.guis.GuiCloudSetup;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.io.IOUtils;
+class LbcmContentHandler implements HttpHandler {
+    GuiCloudSetup gui;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+    public LbcmContentHandler(GuiCloudSetup newGui) {
+        super();
+        gui = newGui;
+    }
 
-import cc.littleBits.cloudmod.guis.GuiCloudSetup;
+    @Override
+    public void handle(HttpExchange t) throws IOException {
+        t.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        t.getResponseHeaders().set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        t.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type");
+        t.getResponseHeaders().set("Access-Control-Max-Age", "86400");
 
-class LbcmContentHandler implements HttpHandler{
-	GuiCloudSetup gui;
-	
-	public LbcmContentHandler(GuiCloudSetup newGui) {
-		super();
-		gui = newGui;
-	}
+        if (t.getRequestMethod().equals("POST")) {
+            String token = IOUtils.toString(t.getRequestBody(), "UTF-8").substring(6);
+            gui.setAuth(token);
+        }
 
-	@Override
-	public void handle(HttpExchange t) throws IOException {
-		t.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
-		t.getResponseHeaders().set("Access-Control-Allow-Methods", "POST, OPTIONS");
-		t.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type");
-		t.getResponseHeaders().set("Access-Control-Max-Age", "86400");
-		
-		if(t.getRequestMethod().equals("POST")) {
-			String token = IOUtils.toString(t.getRequestBody(), "UTF-8").substring(6);
-			gui.setAuth(token);
-		}
-
-		String response = "OK";
+        String response = "OK";
         t.sendResponseHeaders(200, response.length());
         OutputStream os = t.getResponseBody();
         os.write(response.getBytes());
         os.close();
-	}
+    }
 }

@@ -21,46 +21,47 @@ import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
 public class CloudMod {
-	
-	@Instance("lbcm")
-	public static CloudMod instance = new CloudMod();
-	
-	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
-	public static CommonProxy proxy;
-	
-	public static final CloudModTab tabCloudMod = new CloudModTab("tabCloudMod");
-	private GuiHandler gui_handler = new GuiHandler();
-	public static SimpleNetworkWrapper network;
-	public static CloudConnectionManager cloudManager;
-	public static PlayerDB playerManager;
-	
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		// Register network packet handler for updating the cloud gateway
-		network = NetworkRegistry.INSTANCE.newSimpleChannel("NBTChannel");
-		network.registerMessage(NBTMessage.Handler.class, NBTMessage.class, 0, Side.SERVER);
-		
-		CloudModBlocks.init();
-		CloudModBlocks.register();
-	}
-	
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		// Register TEs and renderers on appropriate side
-		proxy.registerTileEntities();
-		proxy.registerRenders();
-		
-		ModRecipies.addRecipies();
-		
-		gui_handler = new GuiHandler();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, gui_handler);
-	}
-	
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		// Register world load and unload event handlers
-		MinecraftForge.EVENT_BUS.register(new WorldEventLBCMHandler());
-		// Create new player database
-		playerManager = new PlayerDB();		
-	}
+    public static final CloudModTab tabCloudMod = new CloudModTab("tabCloudMod");
+
+    @Instance("lbcm")
+    public static CloudMod instance = new CloudMod();
+
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+    public static CommonProxy proxy;
+
+    public static SimpleNetworkWrapper network;
+    public static CloudConnectionManager cloudManager;
+    public static PlayerDB playerManager;
+
+    private GuiHandler gui_handler = new GuiHandler();
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        // Register network packet handler for updating the cloud gateway
+        network = NetworkRegistry.INSTANCE.newSimpleChannel("NBTChannel");
+        network.registerMessage(NBTMessage.Handler.class, NBTMessage.class, 0, Side.SERVER);
+
+        CloudModBlocks.init();
+        CloudModBlocks.register();
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        // Register TEs and renderers on appropriate side
+        proxy.registerTileEntities();
+        proxy.registerRenders();
+
+        ModRecipies.addRecipies();
+
+        gui_handler = new GuiHandler();
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, gui_handler);
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        // Register world load and unload event handlers
+        MinecraftForge.EVENT_BUS.register(new WorldEventLBCMHandler());
+        // Create new player database
+        playerManager = new PlayerDB();
+    }
 }
